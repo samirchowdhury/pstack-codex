@@ -13,3 +13,5 @@ Tests cover deterministic builds, upstream/review gates, failed-reference preser
 Limits: no live external-service, UI, cloud-fleet, overnight scheduler, model-provider diversity, merge or messaging exercise. Those require actual host capabilities and task authorization. New skill discovery must be confirmed in a fresh Codex session; the current session's skill catalog is already loaded. The existing Homebrew Node cannot start due to a missing llhttp dylib; the launcher uses VS Code's self-contained Node runtime. GitHub CLI is unavailable; no origin repository has been published.
 
 Next validation: invoke $poteto-mode on a small read-only real project investigation in a fresh Codex conversation, then exercise $update-pstack when upstream changes.
+
+Final integrated verification: build, check, all 11 tests and global install passed. Installed helper permissions are preserved and its actual invocation is tested. All 46 links installed; no robotics project files changed. Sync's upstream clone operation was exercised during source acquisition; the complete future candidate-promotion workflow has not yet been exercised against a newer upstream revision.

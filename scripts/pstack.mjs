@@ -46,7 +46,7 @@ function build(){
  const tmp=at('.build-'+process.pid);fs.mkdirSync(tmp);
  try {
  const overrides=json(at('codex','overrides.json'));
- for(const p of files(path.join(source,'skills'))){const rel=path.relative(path.join(source,'skills'),p);const content=p.endsWith('.md')?transform(read(p)):fs.readFileSync(p);write(path.join(tmp,'skills',rel),content);}
+ for(const p of files(path.join(source,'skills'))){const rel=path.relative(path.join(source,'skills'),p);const content=p.endsWith('.md')?transform(read(p)):fs.readFileSync(p);write(path.join(tmp,'skills',rel),content);fs.chmodSync(path.join(tmp,'skills',rel),fs.statSync(p).mode & 0o777);}
  for(const name of names()){
   const p=path.join(tmp,'skills',name,'SKILL.md');let s=read(p);const m=s.match(/^---\n([\s\S]*?)\n---\n/);if(!m)throw Error('Invalid frontmatter '+name);
   const body=overrides[name]?`# ${name}\n\n${overrides[name]}\n`:s.slice(m[0].length);
