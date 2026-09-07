@@ -1,0 +1,6 @@
+{
+  "repository": "https://github.com/cursor/plugins",
+  "commit": "93b00b89ef425a9c1bac0d0b317dfc49c930ac99",
+  "treeSha256": "09e9dd92777bbcedff5758e9c69f0db935e95eed00371137c6bce91c2b1240eb",
+  "note": "Initial port: retained corpus, explicit invocation, runtime mapping, native setup/history/comment review. See notes for validation limits."
+}

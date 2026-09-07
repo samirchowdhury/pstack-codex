@@ -1,0 +1,5 @@
+dist/
+.candidate/
+.build-*/
+.DS_Store
+candidate-dist/

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+# This Mac's Homebrew Node has a broken dylib; use the self-contained runtime.
+if [ -x '/Applications/Visual Studio Code.app/Contents/MacOS/Code' ]; then
+  ELECTRON_RUN_AS_NODE=1 exec '/Applications/Visual Studio Code.app/Contents/MacOS/Code' scripts/pstack.mjs "$@"
+fi
+exec node scripts/pstack.mjs "$@"
