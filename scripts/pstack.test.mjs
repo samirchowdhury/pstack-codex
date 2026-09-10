@@ -23,3 +23,15 @@ test('binary resources survive translation byte-for-byte',()=>sandbox(r=>{const 
 test('obsolete owned links are reported without deleting user files',()=>sandbox(r=>{assert.equal(run(r,'build').status,0);const dest=path.join(r,'installed');assert.equal(run(r,'install',{PSTACK_SKILLS_DIR:dest}).status,0);fs.symlinkSync(path.join(fs.realpathSync(r),'dist/skills/removed-skill'),path.join(dest,'removed-skill'));const x=run(r,'install',{PSTACK_SKILLS_DIR:dest});assert.equal(x.status,0);assert.match(x.stderr,/Obsolete owned skill link/);assert.ok(fs.lstatSync(path.join(dest,'removed-skill')).isSymbolicLink());}));
 
 test('bundled executable helper runs after packaging',()=>sandbox(r=>{assert.equal(run(r,'build').status,0);const helper=path.join(r,'candidate-dist/skills/show-me-your-work/scripts/log.sh');assert.ok(fs.statSync(helper).mode & 0o111);const log=path.join(r,'decisions.tsv');const x=spawnSync(helper,[log,'test','decision','reason','evidence','passed'],{encoding:'utf8'});assert.equal(x.status,0,x.stderr);assert.match(fs.readFileSync(log,'utf8'),/decision/);}));
+
+test('interrogate adds GitHub context without replacing its review workflow',()=>sandbox(r=>{
+ const result=run(r,'build');assert.equal(result.status,0,result.stderr);
+ const directory=path.join(r,'candidate-dist/skills/interrogate');
+ const skill=fs.readFileSync(path.join(directory,'SKILL.md'),'utf8');
+ assert.match(skill,/\[Gather GitHub PR context\]\(references\/github-context.md\)/);
+ for(const heading of ['## Step 2, State the Intent','## Step 3, Spawn Reviewers','## Step 4, Synthesize','## Step 5, Lead Judgment'])assert.ok(skill.includes(heading));
+ assert.equal(fs.readFileSync(path.join(directory,'references/github-context.md'),'utf8'),fs.readFileSync(path.join(r,'codex/interrogate-github.md'),'utf8'));
+ assert.ok(fs.existsSync(path.join(directory,'references/reviewer-prompt.md')));
+ assert.ok(fs.existsSync(path.join(directory,'references/rubric.md')));
+ assert.ok(fs.existsSync(path.join(directory,'references/code-quality-review.md')));
+}));
