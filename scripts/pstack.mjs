@@ -49,7 +49,13 @@ function build(){
  for(const p of files(path.join(source,'skills'))){const rel=path.relative(path.join(source,'skills'),p);const content=p.endsWith('.md')?transform(read(p)):fs.readFileSync(p);write(path.join(tmp,'skills',rel),content);fs.chmodSync(path.join(tmp,'skills',rel),fs.statSync(p).mode & 0o777);}
  for(const name of names()){
   const p=path.join(tmp,'skills',name,'SKILL.md');let s=read(p);const m=s.match(/^---\n([\s\S]*?)\n---\n/);if(!m)throw Error('Invalid frontmatter '+name);
-  const body=overrides[name]?`# ${name}\n\n${overrides[name]}\n`:s.slice(m[0].length);
+  let body=overrides[name]?`# ${name}\n\n${overrides[name]}\n`:s.slice(m[0].length);
+  if(name==='interrogate'){
+   const heading='## Step 1, Determine Scope';
+   if(body.split(heading).length!==2)throw Error('Interrogate scope heading changed; review the GitHub context insertion.');
+   body=body.replace(heading,heading+'\n\nFor a GitHub PR, follow [Gather GitHub PR context](references/github-context.md) before choosing a diff. Use its recorded base and head commits instead of the local branch defaults below.');
+   write(path.join(tmp,'skills',name,'references','github-context.md'),read(at('codex','interrogate-github.md')));
+  }
   write(p,m[0]+'\n'+contract()+'\n'+body);
   write(path.join(tmp,'skills',name,'agents','openai.yaml'),'policy:\n  allow_implicit_invocation: false\n');
  }

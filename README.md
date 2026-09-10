@@ -18,6 +18,7 @@ All 45 upstream skills retain their names. The upstream reference/playbook corpu
 - All model defaults inherit the parent; four independent passes do not imply four providers. Optional verified role overrides live in `~/.codex/pstack-models.md`.
 - Setup configures Codex role preferences, not Cursor rules. Recall discovers available history rather than assuming Cursor's session schema.
 - Comment review preserves unresolved constraints instead of deleting ambiguous comments. Legal notices and public contracts remain protected.
+- Interrogate prefers authenticated `gh` for GitHub PR context, with a connector fallback. Reviewers receive the same recorded commits, diff, checks, and relevant discussion.
 - Missing control tools, integrations, and model families are reported. Built-in skill creation maps to skill-creator; deslop maps to scoped diff cleanup.
 - Upstream Git and automation instructions cannot override the current user's scope or repository rules. This package creates no schedule, enables no external provider, and authorizes no merging or messaging.
 
